@@ -1,39 +1,46 @@
-// src/app/monitor.service.ts
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+// A monitorok típusa
+export interface Monitor {
+  id: number;
+  brand: string;
+  model: string;
+  screen_size: number;
+  resolution: string;
+  refresh_rate: number;
+  price: number;
+  type: string;
+  availability: boolean;
+}
+
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class MonitorService {
-  private apiUrl = 'http://localhost:3000/monitors';
+  private apiUrl = 'assets/monitors.json'; // A JSON fájl helye
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  // Get all monitors
-  getMonitors(): Observable<any> {
-    return this.http.get(this.apiUrl);
+  // Az összes monitor adat lekérése
+  getMonitors(): Observable<Monitor[]> {
+    return this.http.get<Monitor[]>(this.apiUrl);
   }
 
-  // Get a single monitor by id
-  getMonitor(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`);
+  // Új monitor hozzáadása
+  addMonitor(monitor: Monitor): Observable<Monitor> {
+    return this.http.post<Monitor>(this.apiUrl, monitor);
   }
 
-  // Add a new monitor
-  addMonitor(monitor: any): Observable<any> {
-    return this.http.post(this.apiUrl, monitor);
+  // Monitor frissítése
+  updateMonitor(monitor: Monitor): Observable<Monitor> {
+    return this.http.put<Monitor>(`${this.apiUrl}/${monitor.id}`, monitor);
   }
 
-  // Update an existing monitor
-  updateMonitor(id: number, monitor: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, monitor);
-  }
-
-  // Delete a monitor
-  deleteMonitor(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  // Monitor törlése
+  deleteMonitor(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
+

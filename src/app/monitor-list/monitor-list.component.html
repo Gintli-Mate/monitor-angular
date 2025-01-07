@@ -1,35 +1,45 @@
-
-<div class="container">
-    <h2>Monitorok</h2>
-    <button mat-raised-button color="primary" routerLink="/add">Új monitor hozzáadása</button>
+<div class="monitor-list">
+    <h2>Monitor List</h2>
   
-    <table mat-table [dataSource]="monitors">
-      <ng-container matColumnDef="brand">
-        <th mat-header-cell *matHeaderCellDef> Brand </th>
-        <td mat-cell *matCellDef="let monitor"> {{monitor.brand}} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="model">
-        <th mat-header-cell *matHeaderCellDef> Model </th>
-        <td mat-cell *matCellDef="let monitor"> {{monitor.model}} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="screen_size">
-        <th mat-header-cell *matHeaderCellDef> Screen Size </th>
-        <td mat-cell *matCellDef="let monitor"> {{monitor.screen_size}} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let monitor">
-          <button mat-button (click)="viewDetails(monitor.id)">Részletek</button>
-          <button mat-button (click)="editMonitor(monitor.id)">Szerkesztés</button>
-          <button mat-button (click)="deleteMonitor(monitor.id)">Törlés</button>
-        </td>
-      </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <table>
+      <thead>
+        <tr>
+          <th>Brand</th>
+          <th>Model</th>
+          <th>Screen Size</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let monitor of monitors">
+          <td>{{ monitor.brand }}</td>
+          <td>{{ monitor.model }}</td>
+          <td>{{ monitor.screen_size }}</td>
+          <td>{{ monitor.price | currency }}</td>
+          <td>
+            <button (click)="deleteMonitor(monitor.id)">Delete</button>
+            <button (click)="updateMonitor(monitor)">Update</button>
+          </td>
+        </tr>
+      </tbody>
     </table>
+  
+    <h3>Add New Monitor</h3>
+    <form (ngSubmit)="addMonitor()">
+      <label for="brand">Brand:</label>
+      <input type="text" [(ngModel)]="newMonitor.brand" name="brand" required>
+      
+      <label for="model">Model:</label>
+      <input type="text" [(ngModel)]="newMonitor.model" name="model" required>
+      
+      <label for="screen_size">Screen Size:</label>
+      <input type="number" [(ngModel)]="newMonitor.screen_size" name="screen_size" required>
+      
+      <label for="price">Price:</label>
+      <input type="number" [(ngModel)]="newMonitor.price" name="price" required>
+  
+      <button type="submit">Add Monitor</button>
+    </form>
   </div>
   
