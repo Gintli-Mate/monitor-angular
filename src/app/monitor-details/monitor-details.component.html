@@ -1,0 +1,11 @@
+
+<div *ngIf="monitor">
+    <h2>{{ monitor.brand }} - {{ monitor.model }}</h2>
+    <p><strong>Képernyő méret:</strong> {{ monitor.screen_size }} inch</p>
+    <p><strong>Felbontás:</strong> {{ monitor.resolution }}</p>
+    <p><strong>Frissítési frekvencia:</strong> {{ monitor.refresh_rate }} Hz</p>
+    <p><strong>Ár:</strong> ${{ monitor.price }}</p>
+    <p><strong>Típus:</strong> {{ monitor.type }}</p>
+    <p><strong>Elérhetőség:</strong> {{ monitor.availability ? 'Elérhető' : 'Nem elérhető' }}</p>
+  </div>
+  
